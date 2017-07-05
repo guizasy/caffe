@@ -3,6 +3,8 @@
 namespace bp = boost::python;
 #endif
 
+#ifndef BUILD_MEX_INTERFACE
+
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
@@ -456,3 +458,5 @@ int main(int argc, char** argv) {
     gflags::ShowUsageWithFlagsRestrict(argv[0], "tools/caffe");
   }
 }
+
+#endif
