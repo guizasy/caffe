@@ -57,7 +57,12 @@ void SmoothL1LossLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
   Dtype loss;
   caffe_gpu_asum(count, errors_.gpu_data(), &loss);
   int spatial_dim = diff_.height() * diff_.width();
+  //top[0]->mutable_cpu_data()[0] = loss / bottom[0]->num(); // This is the original implementation in *Fast* R-CNN
   top[0]->mutable_cpu_data()[0] = loss / bottom[0]->num() / spatial_dim;
+  // This implementation takes effects for both RPN and Fast R-CNN.
+ 	// For Fast R-CNN, bottom[0]->num() is 128, and spatial_dim is always 1. This implementation is equivalent.
+  // For RPN, bottom[0]->num() is 1, and spatial_dim is about 1000x600/16/16 ~ 2400.
+  // Also for RPN, in the SoftmaxLoss we use the default normalize version (sum of weights = batch_size = 256 ), so lambda=10 (see paper) will make SoftmaxLoss and SmoothL1Loss roughly balanced.
 }
 
 template <typename Dtype>
