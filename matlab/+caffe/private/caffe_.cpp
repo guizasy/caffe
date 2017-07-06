@@ -564,7 +564,8 @@ static void protobuf_log_handler(::google::protobuf::LogLevel level, const char*
 {
 	const int max_err_length = 512;
 	char err_message[max_err_length];
-	sprintf_s(err_message, "Protobuf : %s . at %s Line %d", message.c_str(), filename, line);
+	snprintf(err_message, max_err_length, "Protobuf : %s . at %s Line %d",
+           message.c_str(), filename, line);
 	LOG(INFO) << err_message;
 	::google::FlushLogFiles(0);
 	mexErrMsgTxt(err_message);
@@ -708,6 +709,5 @@ void mexFunction(MEX_ARGS) {
   }
   mxFree(cmd);
 }
-
 
 #endif
