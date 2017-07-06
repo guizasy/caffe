@@ -164,7 +164,14 @@ class Net {
     CHECK_GE(i, 0) << "Invalid layer id";
     CHECK_LT(i, bottom_id_vecs_.size()) << "Invalid layer id";
     return bottom_id_vecs_[i];
+
+  inline const vector<vector<int> >& bottom_id_vecs() const {
+	  return bottom_id_vecs_;
   }
+  inline const vector<vector<int> >& top_id_vecs() const {
+	  return top_id_vecs_;
+  }
+  
   inline const vector<vector<bool> >& bottom_need_backward() const {
     return bottom_need_backward_;
   }
